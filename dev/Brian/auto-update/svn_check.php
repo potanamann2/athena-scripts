@@ -37,18 +37,10 @@ $log_db = 'log';        // ragnarok log database
 
 
 // Get the SVN revision of a local directory
-function local_svn_revision($entriesFile = null) {
-	if (file_exists($entriesFile) && is_readable($entriesFile)) {
-		$fp  = fopen($entriesFile, 'r');
-		$arr = explode("\n", fread($fp, 256));
-		
-		if (isset($arr[3]) && ctype_digit($rev=trim($arr[3]))) {
-			fclose($fp);
-			return (int)$rev;
-		} else {
-			return null;
-		}
-	}
+function local_svn_revision($path = null) {
+	$version_string = `svnversion $path`;
+	preg_match('/^\d+/', $version_string, $version);
+	return (int)$version[0];
 }
 // Get the Head revision of a remote SVN repository
 function remote_svn_revision($url = null) {
@@ -58,7 +50,7 @@ function remote_svn_revision($url = null) {
 	return (int)$head[0];
 }
 
-$server_rev = local_svn_revision($local_path . '.svn/entries');
+$server_rev = local_svn_revision($local_path);
 $rathena_rev = remote_svn_revision($rathena_url);
 
 if ($server_rev < $rathena_rev) {
