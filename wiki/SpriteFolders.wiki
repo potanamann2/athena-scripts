@@ -1,0 +1,12 @@
+#summary Folder layout for sprites
+#labels Documentation-Client
+
+== Description (ASCII names) ==
+|| \data\sprite\¾ÆÀÌÅÛ\                       || drop sprites (act, spr)                ||
+|| \data\sprite\¾Ç¼¼»ç¸®\¿©\                  || female headgear (act, spr)             ||
+|| \data\sprite\¾Ç¼¼»ç¸®\³²\                  || male headgear (act, spr)               ||
+|| \data\texture\À¯ÀúÀÎÅÍÆäÀÌ½º\collection\   || large image for item description (bmp) ||
+|| \data\texture\À¯ÀúÀÎÅÍÆäÀÌ½º\item\         || small image for inventory list (bmp)   ||
+
+== See also ==
+  * http://ratemyserver.net/index.php?page=riot_bible_main

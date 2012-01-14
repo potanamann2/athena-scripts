@@ -1,0 +1,20 @@
+#summary How to enable core dumps
+#labels Phase-Implementation
+
+== Instructions ==
+  # {{{ulimit -c unlimited}}}
+  # {{{nano /etc/profile}}}
+{{{
+# No core files by default
+# ulimit -S -c 0 > /dev/null 2>&1
+}}}
+  # {{{nano /etc/security/limits.conf}}}
+{{{
+*               soft    core            unlimited
+}}}
+
+
+== See also ==
+  * http://www.eathena.ws/wiki/index.php/GDB
+  * http://nn.nachtwolke.com/m/eawm/index.php?title=GDB
+  * http://en.wikipedia.org/wiki/Core_dump

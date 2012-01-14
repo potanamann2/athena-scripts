@@ -1,0 +1,60 @@
+//===== eAthena Script =======================================
+//= VIP Rental System
+//===== By: ==================================================
+//= Brian
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= eAthena SVN (SQL only)
+//===== Description: =========================================
+//= Makes a player VIP (GM level 1) for a set amount of time.
+//===== Additional Comments: =================================
+//= 
+//============================================================
+
+function	script	F_VIPstart	{
+	set .@ticks, getarg(0); // getarg(0) = ticks (seconds)
+	if (.@ticks <= 0) {
+		debugmes "F_VIPstart - tried to set a timer in the past";
+		end;
+	}
+	// set a variable, #VIP_expire, as the Unixtime when this expires
+	set #VIP_expire, gettimetick(2) + .@ticks;
+	// add a timer with that tick (in case they stay logged in that long)
+	if (.@ticks < 2147483) { // prevent overflow error
+		addtimer .@ticks *1000, "vip_rental::OnVIPend";
+	} else {
+		addtimer 2147483000, "vip_rental::OnVIPcheck";
+	}
+	// change them to GM level 1
+	atcommand "@adjgmlvl 1 "+strcharinfo(0);
+	dispbottom "You now have access to VIP commands!";
+	return;
+}
+
+-	script	vip_rental	-1,{
+OnPCLoginEvent:
+	if (#VIP_expire > gettimetick(2)) {
+		// timer in future
+		atcommand "@adjgmlvl 1 "+strcharinfo(0);
+	}
+OnVIPcheck:
+	if (#VIP_expire > gettimetick(2)) {
+		if ((#VIP_expire - gettimetick(2)) < 2147483) { // prevent overflow error
+			addtimer (#VIP_expire - gettimetick(2)) *1000, strnpcinfo(3)+"::OnVIPend";
+		} else {
+			addtimer 2147483000, strnpcinfo(3)+"::OnVIPcheck";
+		}
+	} else if (#VIP_expire) {
+		// timer already expired
+		doevent strnpcinfo(3)+"::OnVIPend";
+	}
+	end;
+
+OnVIPend:
+	// change them to GM level 0
+	atcommand "@adjgmlvl 0 "+strcharinfo(0);
+	set #VIP_expire, 0; // clear timer
+	dispbottom "Your VIP Rental has expired.";
+	end;
+}

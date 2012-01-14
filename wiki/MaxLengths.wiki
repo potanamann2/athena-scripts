@@ -1,0 +1,17 @@
+#summary Reference: max length of some variables
+#labels Phase-Implementation,Documentation-Source,Documentation-Scripts
+
+|| *Constant*        || *Max Length* || *Examples*           ||
+|| NAME_LENGTH       || 23           || Char name, NPC name, ||
+|| MAP_NAME_LENGTH   || 11           || Map name             ||
+|| MAP_NAME_LENGTH   || 7            || (Instance) Map name  ||
+|| MAIL_TITLE_LENGTH || 40           || Mail title           ||
+|| MAIL_BODY_LENGTH  || 200          || Mail message         ||
+||                   ||              ||                      ||
+|| @whispervar0$     || 49           || {{{OnWhisperGlobal:}}} ||
+|| string input box  || 70           || {{{input .@hotkey_string$;}}} ||
+|| numeric input box || 8            || {{{input .@number;}}} ||
+|| dispbottom        || 70 ?         || {{{dispbottom .@some_long_string$;}}} ||
+
+== See also ==
+  * ../src/common/[http://eathena.googlecode.com/svn/trunk/src/common/mmo.h mmo.h]

@@ -1,0 +1,14 @@
+#summary Browsing a specific SVN revision in a web browser
+#labels Phase-Implementation
+
+== Instructions ==
+  # Figure out the *base url* (i.e. the directory that does not have a *..* link to the parent directory).
+   Ex: <b>http://eathena.googlecode.com/svn/</b>trunk/installer/
+  # Append !svn/bc/REVISION/ to the end of the base url.
+   Ex: http://eathena.googlecode.com/svn/!svn/bc/14000/
+  Google Code has an additional custom URL: /svn-history/rREVISION/PATH/
+   Ex: http://eathena.googlecode.com/svn-history/r14000/trunk/
+
+
+== See also ==
+  * http://www.gooli.org/blog/accessing-svn-revision-via-a-browser/
