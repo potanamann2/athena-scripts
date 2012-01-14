@@ -14,4 +14,4 @@
 || dispbottom        || 70 ?         || {{{dispbottom .@some_long_string$;}}} ||
 
 == See also ==
-  * ../src/common/[http://eathena.googlecode.com/svn/trunk/src/common/mmo.h mmo.h]
+  * ../src/common/[http://rathena.googlecode.com/svn/trunk/src/common/mmo.h mmo.h]

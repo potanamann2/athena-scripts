@@ -25,4 +25,4 @@ BUILDIN_DEF(atcommand,"*"),
 }}}
 
 == See also ==
-  * [http://eathena.googlecode.com/svn/trunk/src/map/script.c add_buildin_func()]
+  * [http://rathena.googlecode.com/svn/trunk/src/map/script.c add_buildin_func()]

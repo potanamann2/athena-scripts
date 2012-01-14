@@ -1,19 +1,18 @@
-//===== eAthena Script =======================================
+//===== rAthena Script =======================================
 //= Automated SVN updates
 //===== By: ==================================================
 //= Brian
 //===== Current Version: =====================================
 //= 1.0
 //===== Compatible With: =====================================
-//= eAthena SVN (SQL only)
+//= rAthena SVN (SQL only)
 //===== Description: =========================================
 //= Automatically 'svn update', recompile, and restart server.
 //===== Additional Comments: =================================
-//= 1.0 First Version. 
 //= 
 //============================================================
 
--	script	SVN_update	139,{
+-	script	SVN_update	-1,{
 OnWhisperGlobal:
 	if (.restart)
 		dispbottom "Server restart for updates at "+.time$+".";

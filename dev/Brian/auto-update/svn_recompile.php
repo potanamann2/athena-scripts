@@ -1,22 +1,21 @@
 <?php
-//===== eAthena Script =======================================
+//===== rAthena Script =======================================
 //= Automated SVN updates
 //===== By: ==================================================
 //= Brian
 //===== Current Version: =====================================
-//= 1.0
+//= 1.1
 //===== Compatible With: =====================================
-//= eAthena SVN (SQL only)
+//= rAthena SVN (SQL only)
 //===== Description: =========================================
 //= Automatically 'svn update', recompile, and restart server.
 //===== Additional Comments: =================================
-//= 1.0 First Version. 
 //= 
 //============================================================
 
-$local_path = '/home/eathena/trunk/';           // your eAthena server directory (including trailing slash)
-$output_dir = '/home/eathena/update_log/';      // where to save the .log files (including trailing slash)
-$eathena_url = 'http://eathena-project.googlecode.com/svn/'; // URL for checking eAthena HEAD revision
+$local_path = '/home/rathena/trunk/';           // your rAthena server directory (including trailing slash)
+$output_dir = '/home/rathena/update_log/';      // where to save the .log files (including trailing slash)
+$rathena_url = 'https://rathena.svn.sourceforge.net/svnroot/rathena/'; // URL for checking rAthena HEAD revision
 $host = 'localhost';    // MySQL host
 $user = 'ragnarok';     // MySQL user
 $pass = '';             // MySQL password
@@ -26,11 +25,11 @@ $log_db = 'log';        // ragnarok log database
 
 // get info from last entry in `svn_log` table
 $cxn = mysqli_connect($host,$user,$pass,$log_db);
-$result = mysqli_query($cxn, "SELECT `server_rev`,`eathena_rev`,`restart` FROM `svn_log` ORDER BY `id` DESC LIMIT 1");
+$result = mysqli_query($cxn, "SELECT `server_rev`,`rathena_rev`,`restart` FROM `svn_log` ORDER BY `id` DESC LIMIT 1");
 $line = mysqli_fetch_row($result);
 
 $server_rev = (int)$line[0];
-$eathena_rev = (int)$line[1];
+$rathena_rev = (int)$line[1];
 $restart = (int)$line[2];
 
 // if no restart scheduled, nothing to do
@@ -62,7 +61,7 @@ $cmd='mv '.$local_path.'log/* '.$local_path.$server_rev.' &> /dev/null';	`$cmd`;
 // compile servers
 `cd $local_path; ./configure`;
 `cd $local_path; make clean`;
-`cd $local_path; make sql >> $output_dir$server_rev-$eathena_rev.log`;
+`cd $local_path; make sql >> $output_dir$server_rev-$rathena_rev.log`;
 
 
 // start servers

@@ -3,11 +3,11 @@
 
 == Instructions ==
   # Figure out the *base url* (i.e. the directory that does not have a *..* link to the parent directory).
-   Ex: <b>http://eathena.googlecode.com/svn/</b>trunk/installer/
+   Ex: <b>http://rathena.googlecode.com/svn/</b>trunk/conf/
   # Append !svn/bc/REVISION/ to the end of the base url.
-   Ex: http://eathena.googlecode.com/svn/!svn/bc/14000/
+   Ex: http://rathena.googlecode.com/svn/!svn/bc/14000/
   Google Code has an additional custom URL: /svn-history/rREVISION/PATH/
-   Ex: http://eathena.googlecode.com/svn-history/r14000/trunk/
+   Ex: http://rathena.googlecode.com/svn-history/r14000/trunk/
 
 
 == See also ==
