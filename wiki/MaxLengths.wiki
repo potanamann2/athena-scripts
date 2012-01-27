@@ -15,3 +15,4 @@
 
 == See also ==
   * ../src/common/[http://rathena.googlecode.com/svn/trunk/src/common/mmo.h mmo.h]
+  * rAthena Wiki: [http://rathena.org/wiki/Variables#Minima_and_Maxima_of_Variables Variables]
