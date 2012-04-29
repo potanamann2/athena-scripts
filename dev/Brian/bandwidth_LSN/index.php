@@ -24,7 +24,7 @@ error_reporting(0); // Turn off all error reporting
 
 $apiKey = "SET_API_KEY_HERE";
 
-$apiData = "https://rw.limestonenetworks.com/webservices/clientapi.php?key=".$apiKey."&mod=servers&action=list";
+$apiData = "https://one.limestonenetworks.com/webservices/clientapi.php?key=".$apiKey."&mod=servers&action=list";
 $serverList = simplexml_load_file($apiData);
 
 foreach ($serverList->server as $serverItem) {
