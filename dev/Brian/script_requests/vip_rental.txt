@@ -36,6 +36,7 @@ function	script	F_VIPstart	{
 OnPCLoginEvent:
 	if (#VIP_expire > gettimetick(2)) {
 		// timer in future
+		dispbottom "VIP Rental : expires in " + callfunc("Time2Str",#VIP_expire);
 		atcommand "@adjgmlvl 1 "+strcharinfo(0);
 	}
 OnVIPcheck:
