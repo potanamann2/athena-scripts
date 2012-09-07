@@ -50,8 +50,14 @@ poring_c01,100,100,0	script	Party Warper	910,{
 		getmapxy(.@map$, .@x, .@y, 0, .@party_names$[.@j]);
 		mes "^008000"+.@party_names$[.@j]+"^000000 - "+.@map$+" ("+.@x+","+.@y+")";
 		mes "Warp to "+.@party_names$[.@j]+"?";
-		if(select("Yes, warp me:No thanks")==1)
-			warp .@map$, .@x, .@y;
+		if(select("Yes, warp me:No thanks")==2) {
+			;
+		} else if (getmapflag(.@map$,mf_gvg_castle)) {
+			mes "^FF0000 You can't warp to WoE castles.";
+		} else if (getmapflag(.@map$,mf_pvp) || getmapflag(.@map$,mf_gvg)) {
+			mes "^FF0000 You can't warp to WoE castles.";
+		}
+		warp .@map$, .@x, .@y;
 	} else if (attachrid(.@party_aid[.@j])) {
 		set .@name$, strcharinfo(0);
 		set .@sex, Sex;
