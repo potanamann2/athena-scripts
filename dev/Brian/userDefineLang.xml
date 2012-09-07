@@ -1,5 +1,5 @@
 <NotepadPlus>
-    <UserLang name="eAthena" ext="txt conf sc">
+    <UserLang name="rAthena" ext="txt conf sc">
         <Settings>
             <Global caseIgnored="yes" />
             <TreatAsSymbol comment="no" commentLine="yes" />
