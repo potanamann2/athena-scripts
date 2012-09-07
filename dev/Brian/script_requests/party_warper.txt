@@ -8,6 +8,10 @@
 // party member is currently on another of their characters (in the same account of course).
 
 poring_c01,100,100,0	script	Party Warper	910,{
+	if (!getmapflag(strcharinfo(3),mf_town)) {
+		dispbottom "You can only use the Party Warper when you are in town.";
+		close;
+	}
 	if (getcharid(1)==0 ) {
 		mes "Sorry, but you're an emo kid and have no party. Come back when you do.";
 		close;
