@@ -32,7 +32,7 @@ poring_c01,100,100,0	script	Party Warper	910,{
 	// construct menu of party members
 	for( set .@i,0; .@i<.@party_count; set .@i,.@i+1 ) {
 		if (.@party_charid[.@i] == getcharid(0)) {
-			; // Yup, that's you :D
+			set .@menu$, .@menu$ + ":"; // Yup, that's you :D
 		} else if (isloggedin(.@party_aid[.@i],.@party_charid[.@i])) {
 			// if they are online
 			getmapxy(.@map$, .@x, .@y, 0, .@party_names$[.@i]);
