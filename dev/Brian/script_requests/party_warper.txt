@@ -8,12 +8,12 @@
 // party member is currently on another of their characters (in the same account of course).
 
 poring_c01,100,100,0	script	Party Warper	910,{
-	if(getcharid(1)==0 ) {
+	if (getcharid(1)==0 ) {
 		mes "Sorry, but you're an emo kid and have no party. Come back when you do.";
 		close;
 	}
 	getpartymember(getcharid(1));
-	if($@partymembercount==1) {
+	if ($@partymembercount==1) {
 		mes "Sorry, but you're an emo kid in a party by yourself.";
 		close;
 	}
@@ -31,12 +31,14 @@ poring_c01,100,100,0	script	Party Warper	910,{
 	
 	// construct menu of party members
 	for( set .@i,0; .@i<.@party_count; set .@i,.@i+1 ) {
-		// if they are online
-		if(isloggedin(.@party_aid[.@i],.@party_charid[.@i])) {
+		if (.@party_charid[.@i] == getcharid(0)) {
+			; // Yup, that's you :D
+		} else if (isloggedin(.@party_aid[.@i],.@party_charid[.@i])) {
+			// if they are online
 			getmapxy(.@map$, .@x, .@y, 0, .@party_names$[.@i]);
 			set .@menu$, .@menu$ + "^008000"+.@party_names$[.@i]+"^000000 - "+.@map$+" ("+.@x+","+.@y+"):";
-		// offline
 		} else {
+			// offline
 			set .@menu$, .@menu$ + "^FF0000"+.@party_names$[.@i]+"^000000 - offline:";
 		}
 	}
@@ -44,13 +46,11 @@ poring_c01,100,100,0	script	Party Warper	910,{
 	set .@AID, playerattached();	// save their RID
 	// pick a party member
 	set .@j, select(.@menu$)-1;
-	if(getcharid(0)==.@party_charid[.@j]) {
-		mes "Yup, that's you :D";
-	} else if (isloggedin(.@party_aid[.@j],.@party_charid[.@j])) {
+	if (isloggedin(.@party_aid[.@j],.@party_charid[.@j])) {
 		getmapxy(.@map$, .@x, .@y, 0, .@party_names$[.@j]);
 		mes "^008000"+.@party_names$[.@j]+"^000000 - "+.@map$+" ("+.@x+","+.@y+")";
 		mes "Warp to "+.@party_names$[.@j]+"?";
-		if(select("Yes, warp me:No thanks")==2) {
+		if (select("Yes, warp me:No thanks")==2) {
 			;
 		} else if (getmapflag(.@map$,mf_gvg_castle)) {
 			mes "^FF0000 You can't warp to WoE castles.";
