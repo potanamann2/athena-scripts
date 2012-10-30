@@ -75,7 +75,7 @@ prontera,155,180,0	script	once_per_MAC	910,{
 		if (.@is_string && getstrlen(.@value$) > 255) {
 			debugmes "set_MAC_variable - string value longer than 255 characters";
 			end;
-		} else if (!.@is_string) {
+		} else if (!.@is_string && getstrlen(.@value$) > 9) {
 			query_sql "SELECT ('"+ escape_sql(.@value$) +"' BETWEEN -2147483648 AND 2147483647)", .@valid_int;
 			if (!.@valid_int) {
 				debugmes "set_MAC_variable - integer overflow detected";
