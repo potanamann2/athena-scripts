@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `mac_reg_value` (
   `mac` VARCHAR(17) NOT NULL DEFAULT '0',
   `str` VARCHAR(255) NOT NULL DEFAULT '',
   `value` VARCHAR(255) NOT NULL DEFAULT '0',
-  PRIMARY KEY  (`mac`,`str`),
+  PRIMARY KEY (`mac`,`str`),
   KEY `mac` (`mac`)
 ) ENGINE=MYISAM;
 */
@@ -35,7 +35,7 @@ prontera,155,180,0	script	once_per_MAC	910,{
 		// $#variable = MAC variable
 		set .@varname$, strtolower(getarg(0, "null"));
 		set .@is_string, (charat(.@varname$, getstrlen(.@varname$)-1) == "$");
-		if (query_sql("SELECT `value` FROM `mac_reg_value` WHERE `mac`='"+ getmacaddress() +"' AND `str`='"+ .@varname$ +"'", .@value$)) {
+		if (query_sql("SELECT `value` FROM `mac_reg_value` WHERE `mac`='"+ getmacaddress() +"' AND `str`='"+ escape_sql(.@varname$) +"'", .@value$)) {
 			return (.@is_string ? .@value$ : atoi(.@value$));
 		} else {
 			return (.@is_string ? "" : 0);
@@ -75,17 +75,20 @@ prontera,155,180,0	script	once_per_MAC	910,{
 		if (.@is_string && getstrlen(.@value$) > 255) {
 			debugmes "set_MAC_variable - string value longer than 255 characters";
 			end;
-		} else if (!.@is_string && getstrlen(.@value$) > 11) { // FIXME
-			debugmes "set_MAC_variable - integer overflow detected";
-			end;
+		} else if (!.@is_string) {
+			query_sql "SELECT ('"+ escape_sql(.@value$) +"' BETWEEN -2147483648 AND 2147483647)", .@valid_int;
+			if (!.@valid_int) {
+				debugmes "set_MAC_variable - integer overflow detected";
+				end;
+			}
 		}
 		
 		if ((.@is_string && .@value$=="") || (!.@is_string && .@value$=="0")) {
 			// value of "" or 0 --> delete variable
-			query_sql "DELETE FROM `mac_reg_value` WHERE `mac`='"+ getmacaddress() +"' AND `str`='"+ .@varname$ +"'";
+			query_sql "DELETE FROM `mac_reg_value` WHERE `mac`='"+ getmacaddress() +"' AND `str`='"+ escape_sql(.@varname$) +"'";
 		} else {
 			// store the variable!!
-			query_sql "REPLACE INTO `mac_reg_value` (`mac`,`str`,`value`) VALUES ('"+getmacaddress()+"', '"+.@varname$+"', '"+ (.@is_string ? .@value$ : atoi(.@value$)) +"')";
+			query_sql "REPLACE INTO `mac_reg_value` (`mac`,`str`,`value`) VALUES ('"+getmacaddress()+"', '"+ escape_sql(.@varname$) +"', '"+ (.@is_string ? escape_sql(.@value$) : atoi(.@value$)) +"')";
 		}
 		return;
 	}
