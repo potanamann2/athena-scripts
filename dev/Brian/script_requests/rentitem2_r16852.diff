@@ -1,8 +1,8 @@
 Index: src/map/script.c
 ===================================================================
---- src/map/script.c	(revision 14260)
+--- src/map/script.c	(revision 16852)
 +++ src/map/script.c	(working copy)
-@@ -5462,6 +5462,82 @@
+@@ -6438,6 +6438,76 @@
  	return 0;
  }
  
@@ -67,29 +67,23 @@ Index: src/map/script.c
 +	it.card[3]=(short)c4;
 +	it.expire_time = (unsigned int)(time(NULL) + seconds);
 +
-+	if( (flag = pc_additem(sd, &it, 1)) )
++	if( (flag = pc_additem(sd, &it, 1, LOG_TYPE_SCRIPT)) )
 +	{
 +		clif_additem(sd, 0, 0, flag);
 +		return 1;
 +	}
 +
-+	clif_rental_time(sd->fd, nameid, seconds);
-+	pc_inventory_rental_add(sd, seconds);
-+
-+	if( log_config.enable_logs&LOG_SCRIPT_TRANSACTIONS )
-+		log_pick_pc(sd, "N", nameid, 1, NULL);
-+	
 +	return 0;
 +}
 +
  /*==========================================
   * gets an item with someone's name inscribed [Skotlex]
   * getinscribeditem item_num, character_name
-@@ -14315,6 +14391,7 @@
+@@ -17025,6 +17095,7 @@
  	BUILDIN_DEF(getelementofarray,"ri"),
  	BUILDIN_DEF(getitem,"vi?"),
  	BUILDIN_DEF(rentitem,"vi"),
 +	BUILDIN_DEF(rentitem2,"viiiiiiii"),
- 	BUILDIN_DEF(getitem2,"iiiiiiiii*"),
- 	BUILDIN_DEF(getnameditem,"is"),
+ 	BUILDIN_DEF(getitem2,"viiiiiiii?"),
+ 	BUILDIN_DEF(getnameditem,"vv"),
  	BUILDIN_DEF2(grouprandomitem,"groupranditem","i"),
