@@ -18,14 +18,14 @@ prontera,155,180,0	script	once_per_MAC	910,{
 	function get_MAC_variable;
 	function set_MAC_variable;
 	
-	if (get_MAC_variable($#halloween_event) > 0) {
+	if (get_MAC_variable("$#halloween_event") > 0) {
 		mes "I already gave a prize to someone from your MAC address.";
 	} else {
 		if (!checkweight(909,1)) {
 			mes "You are overweight or carrying too many items.";
 		} else {
 			getitem 909,1; // Jellopy
-			set_MAC_variable $#halloween_event, 1;
+			set_MAC_variable "$#halloween_event", 1;
 			mes "Here is your prize!";
 		}
 	}
