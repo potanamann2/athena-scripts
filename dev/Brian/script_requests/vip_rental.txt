@@ -19,7 +19,7 @@ function	script	F_VIPstart	{
 		end;
 	}
 	// set a variable, #VIP_expire, as the Unixtime when this expires
-	set #VIP_expire, gettimetick(2) + .@ticks;
+	set #VIP_expire, ((#VIP_expire > gettimetick(2)) ? #VIP_expire : gettimetick(2)) + .@ticks;
 	// trigger the VIP start
 	doevent "vip_rental::OnPCLoginEvent";
 	return;
