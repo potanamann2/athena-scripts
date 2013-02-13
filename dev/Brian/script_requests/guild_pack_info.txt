@@ -65,10 +65,15 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 		          "LEFT JOIN login ON guild_member.account_id=login.account_id " + 
 		          "WHERE guild_id="+getcharid(2);
 		break;
+		
 	case 2: // Guild List
 		// get list of guilds
 		query_sql "SELECT guild_id,guild_name FROM guildpack_guilds ORDER BY guild_name ASC", .@guild_id,.@guild_name$;
-		for (set .@i,0; .@i<getarraysize(.@guild_name$); set .@i,.@i+1)
+		if (getarraysize(.@guild_id) == 0) {
+			mes "No guild packages have been distributed yet.";
+			close;
+		}
+		for (set .@i,0; .@i<getarraysize(.@guild_id); set .@i,.@i+1)
 			set .@menu$, .@menu$ + .@guild_name$[.@i]+":";
 		// pick a guild
 		set .@GID, .@guild_id[set(.@g,select(.@menu$)-1)];
@@ -82,7 +87,7 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 		          .@char_id, .@colored_name$, .@ip$;
 		// display guild info
 		mes "Guild : " + .@guild_name$[.@g];
-		mes "Status : " + (query_sql("SELECT 1 FROM guild WHERE guild_id="+.@GID,.@i) ? "^008000Active" : "^FF0000Disbanded");
+		mes "Status : " + (query_sql("SELECT 1 FROM guild WHERE guild_id="+.@GID,.@i) ? "^008000Active" : "^FF0000Disbanded") + "^000000";
 		mes "Guild Leader : "+.@colored_name$[0]+"^000000 ("+.@ip$[0]+")";
 		mes "Guild Members :";
 		for (set .@i,1; .@i<getarraysize(.@char_id); set .@i,.@i+1)
