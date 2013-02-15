@@ -2,7 +2,7 @@
 
 /*//==========================================================
 CREATE TABLE IF NOT EXISTS `guildpack_guilds` (
-  `guild_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `guild_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `guild_name` VARCHAR(24) NOT NULL DEFAULT '',
   `master_char_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `master_name` VARCHAR(24) NOT NULL DEFAULT '',
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `guildpack_members` (
   `char_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `name` VARCHAR(30) NOT NULL DEFAULT '',
   `guild_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
-  `ip` VARCHAR(100) NOT NULL DEFAULT '',
+  `ip` VARCHAR(15) NOT NULL DEFAULT '',
   PRIMARY KEY  (`guild_id`,`char_id`),
   KEY `guild_id` (`guild_id`)
 ) ENGINE=MYISAM;
@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `guildpack_members` (
 prontera,155,188,0	script	Guild Pack Info	910,{
 	switch(select( (countitem(21001)?"I have a GM's Approval Card":"") + ":Guild List")) {
 	case 1: // exchanging a GM's Approval Card (21001)
+		mes "[Guild Pack Info]";
 		if (!getcharid(2)) {
 			mes "You must be in a guild to receive a guild package.";
 		} else if (getcharid(0) != getguildmasterid(getcharid(2))) {
@@ -50,9 +51,12 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 		
 		// #SUCCESS - passed all checks
 		delitem 21001,1;
-		getitem 21010, 1; // leader
-		for (set .@i,0; .@i<getarraysize(.@char_id); set .@i,.@i+1) {
-			getitem 21011,1, .@account_id[.@i]; // each member
+		for (set .@i,0; .@i<.guild_size; set .@i,.@i+1) {
+			if (.@account_id[.@i] == playerattached()) {
+				getitem 21010,1; // leader
+			} else {
+				getitem 21011,1, .@account_id[.@i]; // each member
+			}
 		}
 		announce "Guild Pack Info : the guild ["+ strcharinfo(2) +"] has obtain a guild package.", bc_all|bc_blue;
 		
@@ -69,8 +73,9 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 	case 2: // Guild List
 		// get list of guilds
 		query_sql "SELECT guild_id,guild_name FROM guildpack_guilds ORDER BY guild_name ASC", .@guild_id,.@guild_name$;
+		mes "[Guild Pack Info]";
 		if (getarraysize(.@guild_id) == 0) {
-			mes "No guild packages have been distributed yet.";
+			mes "No guilds have received a guild pack.";
 			close;
 		}
 		for (set .@i,0; .@i<getarraysize(.@guild_id); set .@i,.@i+1)
