@@ -35,15 +35,15 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 		
 		// check if guild has 10 members
 		query_sql "SELECT char_id,account_id,`name` FROM guild_member WHERE guild_id="+getcharid(2), .@char_id,.@account_id,.@name$;
-		if (getarraysize(.@char_id) < 10) {
-			mes "You must have 10 guild members (1 leader + 9 members).";
+		if (getarraysize(.@char_id) < .guild_size) {
+			mes "You must have "+.guild_size+" guild members (1 leader + "+(.guild_size-1)+" members).";
 			close;
 		}
-		// check if all 10 guild members are online
-		for (set .@i,0; .@i<getarraysize(.@char_id); set .@i,.@i+1) {
+		// check if all guild members are online
+		for (set .@i,0; .@i<.guild_size; set .@i,.@i+1) {
 			if (!isloggedin(.@account_id[.@i], .@char_id[.@i])) {
 				mes .@name$[.@i] +" is offline.";
-				mes "All 10 guild members must be online to receive the guild package.";
+				mes "All "+.guild_size+" guild members must be online to receive the guild package.";
 				close;
 			}
 		}
@@ -97,6 +97,7 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 	close;
 
 OnInit:
+	set .guild_size, 10;
 	if (query_sql("SHOW TABLES LIKE 'guildpack_guilds'", .@t$) == 0) {
 		debugmes "[Guild Pack Info]: SQL table `guildpack_guilds` not found! Disabling npc.";
 		disablenpc strnpcinfo(3);
