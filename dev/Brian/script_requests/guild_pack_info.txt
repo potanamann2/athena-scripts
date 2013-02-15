@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS `guildpack_guilds` (
 ) ENGINE=MYISAM;
 
 CREATE TABLE IF NOT EXISTS `guildpack_members` (
+  `guild_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `char_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `name` VARCHAR(30) NOT NULL DEFAULT '',
-  `guild_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `ip` VARCHAR(15) NOT NULL DEFAULT '',
   PRIMARY KEY  (`guild_id`,`char_id`),
   KEY `guild_id` (`guild_id`)
@@ -38,7 +38,8 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 		// check if guild has 10 members
 		query_sql "SELECT char_id,account_id,`name` FROM guild_member WHERE guild_id="+getcharid(2), .@char_id,.@account_id,.@name$;
 		if (getarraysize(.@char_id) < .guild_size) {
-			mes "You must have ^FF0000"+.guild_size+"^000000 guild members (1 leader + "+(.guild_size-1)+" members).";
+			mes "You must have ^FF0000"+.guild_size+"^000000 guild members";
+			mes "(1 leader + "+(.guild_size-1)+" members).";
 			close;
 		}
 		// check if all guild members are online
@@ -49,7 +50,14 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 				close;
 			}
 		}
-		
+		// check if any guild members have ALREADY obtained a guild package
+		if (query_sql("SELECT `name`,guild_name FROM guildpack_members " + 
+		      "LEFT JOIN guildpack_guilds ON guildpack_members.guild_id=guildpack_guilds.guild_id " + 
+		      "WHERE char_id IN (SELECT char_id FROM guild_member WHERE guild_id="+getcharid(2)+") LIMIT 2", .@name$,.@guild$) > 0) {
+			mes "^0000FF"+.@name$+"^FF0000 already received a guild pack while in ^0000FF"+.@guild$+"^000000.";
+			mes "Each character can only receive a guild pack once.";
+			close;
+		}
 		mes "Exchange GM's Approval Card for Guild Pack?";
 		if (select("No:Yes, continue") == 1) close;
 		
@@ -68,8 +76,8 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 		query_sql "INSERT INTO guildpack_guilds (guild_id,guild_name,master_char_id,master_name,redeem_time) VALUES " + 
 		          "("+getcharid(2)+",'"+escape_sql(strcharinfo(2))+"', "+getcharid(0)+",'"+escape_sql(strcharinfo(0))+"', NOW())";
 		// record all guild members
-		query_sql "INSERT INTO guildpack_members(char_id,`name`,guild_id,ip) " + 
-		          "SELECT char_id,`name`,guild_id,last_ip FROM guild_member " + 
+		query_sql "INSERT INTO guildpack_members(guild_id,char_id,`name`,ip) " + 
+		          "SELECT guild_id,char_id,`name`,last_ip FROM guild_member " + 
 		          "LEFT JOIN login ON guild_member.account_id=login.account_id " + 
 		          "WHERE guild_id="+getcharid(2);
 		break;
