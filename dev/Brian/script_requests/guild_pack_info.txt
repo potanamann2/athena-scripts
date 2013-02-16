@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `guildpack_guilds` (
 
 CREATE TABLE IF NOT EXISTS `guildpack_members` (
   `guild_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `account_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `char_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `name` VARCHAR(30) NOT NULL DEFAULT '',
   `ip` VARCHAR(15) NOT NULL DEFAULT '',
@@ -53,9 +54,9 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 		// check if any guild members have ALREADY obtained a guild package
 		if (query_sql("SELECT `name`,guild_name FROM guildpack_members " + 
 		      "LEFT JOIN guildpack_guilds ON guildpack_members.guild_id=guildpack_guilds.guild_id " + 
-		      "WHERE char_id IN (SELECT char_id FROM guild_member WHERE guild_id="+getcharid(2)+") LIMIT 2", .@name$,.@guild$) > 0) {
+		      "WHERE account_id IN (SELECT account_id FROM guild_member WHERE guild_id="+getcharid(2)+") LIMIT 1", .@name$,.@guild$) > 0) {
 			mes "^0000FF"+.@name$+"^FF0000 already received a guild pack while in ^0000FF"+.@guild$+"^000000.";
-			mes "Each character can only receive a guild pack once.";
+			mes "Each account can only receive a guild pack once.";
 			close;
 		}
 		mes "Exchange GM's Approval Card for Guild Pack?";
@@ -76,8 +77,8 @@ prontera,155,188,0	script	Guild Pack Info	910,{
 		query_sql "INSERT INTO guildpack_guilds (guild_id,guild_name,master_char_id,master_name,redeem_time) VALUES " + 
 		          "("+getcharid(2)+",'"+escape_sql(strcharinfo(2))+"', "+getcharid(0)+",'"+escape_sql(strcharinfo(0))+"', NOW())";
 		// record all guild members
-		query_sql "INSERT INTO guildpack_members(guild_id,char_id,`name`,ip) " + 
-		          "SELECT guild_id,char_id,`name`,last_ip FROM guild_member " + 
+		query_sql "INSERT INTO guildpack_members(guild_id,account_id,char_id,`name`,ip) " + 
+		          "SELECT guild_id,guild_member.account_id,char_id,`name`,last_ip FROM guild_member " + 
 		          "LEFT JOIN login ON guild_member.account_id=login.account_id " + 
 		          "WHERE guild_id="+getcharid(2);
 		break;
