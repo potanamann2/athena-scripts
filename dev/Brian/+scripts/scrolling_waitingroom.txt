@@ -1,4 +1,4 @@
-prontera,155,180	script	test	910,{
+prontera,155,188,0	script	test	837,{
 	// the rest of your NPC goes here
 	
 	close;
