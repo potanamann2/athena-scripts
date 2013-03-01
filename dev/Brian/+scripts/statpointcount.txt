@@ -5,9 +5,10 @@ prontera,155,180,0	script	Total_Stat_Points	910,{
 	function pc_maxparameter;
 	function read_statpoint_table; // db/re/statpoint.txt OR db/pre-re/statpoint.txt
 	
-	mes readparam(bStr)+" Str = " + pc_need_status_point(bStr, 1-readparam(bStr)) + "          " +readparam(bInt)+" Int = " + pc_need_status_point(bInt, 1-readparam(bInt));
-	mes readparam(bAgi)+" Agi = " + pc_need_status_point(bAgi, 1-readparam(bAgi)) + "         "  +readparam(bDex)+" Dex = " + pc_need_status_point(bDex, 1-readparam(bDex));
-	mes readparam(bVit)+" Vit = " + pc_need_status_point(bVit, 1-readparam(bVit)) + "          " +readparam(bLuk)+" Luk = " + pc_need_status_point(bLuk, 1-readparam(bLuk)); sleep2 1;
+	mes readparam(bStr)+" Str = ^0000FF" + pc_need_status_point(bStr, 1-readparam(bStr)) + "^000000          " +readparam(bInt)+" Int = ^0000FF" + pc_need_status_point(bInt, 1-readparam(bInt))+"^000000";
+	mes readparam(bAgi)+" Agi = ^0000FF" + pc_need_status_point(bAgi, 1-readparam(bAgi)) + "^000000         "  +readparam(bDex)+" Dex = ^0000FF" + pc_need_status_point(bDex, 1-readparam(bDex))+"^000000";
+	mes readparam(bVit)+" Vit = ^0000FF" + pc_need_status_point(bVit, 1-readparam(bVit)) + "^000000          " +readparam(bLuk)+" Luk = ^0000FF" + pc_need_status_point(bLuk, 1-readparam(bLuk))+"^000000"; sleep2 1;
+	mes "unused StatusPoint = ^0000FF" + StatusPoint + "^000000";
 	
 	set .@should_have, read_statpoint_table(BaseLevel) + ( Class&EAJ_UPPERMASK ? 52 : 0 );
 	
@@ -23,7 +24,7 @@ prontera,155,180,0	script	Total_Stat_Points	910,{
 	//==========================================================================
 	mes " ";
 	mes "Should Have = " + .@should_have + " stat pts";
-	mes "Actual Stat     = " + .@actual_statpoint + " stat pts";
+	mes "Actual Stat     = ^0000FF" + .@actual_statpoint + " stat pts^000000";
 	
 	if (.@actual_statpoint == .@should_have) {
 		mes "^008000 Correct.^000000";
