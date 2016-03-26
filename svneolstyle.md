@@ -1,0 +1,39 @@
+## Instructions ##
+  1. TortoiseSVN --> Settings
+  1. "Subversion configuration file" --> click **Edit**
+  1. scroll towards the end, find this and change to **yes**
+```
+enable-auto-props = yes
+```
+  1. Add these lines at the bottom of your file:
+```
+*.c = svn:eol-style=native
+*.conf = svn:eol-style=native
+*.css = svn:eol-style=native
+*.diff = svn:eol-style=native
+*.dsp = svn:eol-style=CRLF
+*.dsw = svn:eol-style=CRLF
+*.h = svn:eol-style=native
+.htaccess = svn:eol-style=native
+*.ini = svn:eol-style=native
+*.lua = svn:eol-style=native
+*.nsi = svn:eol-style=native
+*.php = svn:eol-style=native
+*.sh = svn:eol-style=LF;svn:executable
+*.sql = svn:eol-style=native
+*.txt = svn:eol-style=native
+*.vcproj = svn:eol-style=native
+*.xml = svn:eol-style=native
+Makefile = svn:eol-style=native
+
+*.htm = svn:mime-type=text/html
+*.html = svn:mime-type=text/html
+*.gif = svn:mime-type=image/gif
+*.ico = svn:mime-type=image/x-icon
+*.jpg = svn:mime-type=image/jpeg
+*.png = svn:mime-type=image/png
+```
+
+## See also ##
+  * http://www.apache.org/dev/svn-eol-style.txt
+  * http://svnbook.red-bean.com/en/1.1/ch07s02.html

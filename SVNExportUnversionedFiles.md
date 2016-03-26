@@ -1,0 +1,10 @@
+# Introduction #
+
+```
+find . -name .svn -exec rm -rf {} \;
+```
+
+
+# Read More #
+
+  * http://stackoverflow.com/questions/1294590/how-to-remove-all-svn-directories-from-my-app-directories
